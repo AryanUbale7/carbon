@@ -22,27 +22,19 @@ export function CarbonTwin({
   setEnergyTransitionActive,
   triggerToast,
 }: CarbonTwinProps) {
-  const currentTwinProjections = {
+  const currentTwinProjections = React.useMemo(() => ({
     2026: 420,
     2027: 510,
     2028: 590
-  };
+  }), []);
 
-  const calculateOptimizedTwin = (year: number) => {
-    return calcTwin(
-      year,
-      currentTwinProjections,
-      dairyReductionPercent,
-      altAdoptionPercent,
-      energyTransitionActive
-    );
-  };
-
-  const optimizedTwinProjections = {
-    2026: calculateOptimizedTwin(2026),
-    2027: calculateOptimizedTwin(2027),
-    2028: calculateOptimizedTwin(2028)
-  };
+  const optimizedTwinProjections = React.useMemo(() => {
+    return {
+      2026: calcTwin(2026, currentTwinProjections, dairyReductionPercent, altAdoptionPercent, energyTransitionActive),
+      2027: calcTwin(2027, currentTwinProjections, dairyReductionPercent, altAdoptionPercent, energyTransitionActive),
+      2028: calcTwin(2028, currentTwinProjections, dairyReductionPercent, altAdoptionPercent, energyTransitionActive)
+    };
+  }, [dairyReductionPercent, altAdoptionPercent, energyTransitionActive, currentTwinProjections]);
 
   const twinDifference2028 = currentTwinProjections[2028] - optimizedTwinProjections[2028];
 

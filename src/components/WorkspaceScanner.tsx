@@ -139,41 +139,24 @@ export function WorkspaceScanner({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 gap-2.5">
-            <button 
-              onClick={() => triggerSampleScan("bengaluru-cafe")}
-              className="p-2.5 bg-[#0c0d12] border border-zinc-800 hover:border-emerald-500/40 rounded text-left flex flex-col hover:text-emerald-400 transition-all group font-mono"
-              id="demo-btn-bengaluru"
-            >
-              <div className="flex justify-between items-center w-full mb-1">
-                <span className="font-bold text-zinc-200 text-xs font-sans group-hover:text-emerald-400 transition-colors">Bengaluru Café Receipt</span>
-                <span className="text-[8px] bg-sky-950/40 text-[#3b82f6] border border-[#3b82f6]/20 rounded px-1.5 py-[1px]">LATTE_STK</span>
-              </div>
-              <span className="text-[10px] text-zinc-500 truncate">500ml Milk curd, Paneer fat segments...</span>
-            </button>
-            
-            <button 
-              onClick={() => triggerSampleScan("mumbai-mart")}
-              className="p-2.5 bg-[#0c0d12] border border-zinc-800 hover:border-emerald-500/40 rounded text-left flex flex-col hover:text-emerald-400 transition-all group font-mono"
-              id="demo-btn-mumbai"
-            >
-              <div className="flex justify-between items-center w-full mb-1">
-                <span className="font-bold text-zinc-200 text-xs font-sans group-hover:text-emerald-400 transition-colors">Mumbai Grocery Mart</span>
-                <span className="text-[8px] bg-amber-950/40 text-amber-500 border border-amber-500/20 rounded px-1.5 py-[1px]">GHEE_LOAD</span>
-              </div>
-              <span className="text-[10px] text-zinc-500 truncate">Aged Basmati, Cow ghee portions, Honey...</span>
-            </button>
-            
-            <button 
-              onClick={() => triggerSampleScan("pune-dairy")}
-              className="p-2.5 bg-[#0c0d12] border border-zinc-800 hover:border-emerald-500/40 rounded text-left flex flex-col hover:text-emerald-400 transition-all group font-mono"
-              id="demo-btn-pune"
-            >
-              <div className="flex justify-between items-center w-full mb-1">
-                <span className="font-bold text-zinc-200 text-xs font-sans group-hover:text-emerald-400 transition-colors">Pune Household Dairy</span>
-                <span className="text-[8px] bg-emerald-950/40 text-[#10b981] border border-emerald-500/20 rounded px-1.5 py-[1px]">LACT_AVD</span>
-              </div>
-              <span className="text-[10px] text-zinc-500 truncate">Packet butter, Fermented yogurt...</span>
-            </button>
+            {[
+              { id: "bengaluru-cafe", name: "Bengaluru Café Receipt", label: "LATTE_STK", color: "bg-sky-950/40 text-[#3b82f6] border border-[#3b82f6]/20", desc: "500ml Milk curd, Paneer fat segments..." },
+              { id: "mumbai-mart", name: "Mumbai Grocery Mart", label: "GHEE_LOAD", color: "bg-amber-950/40 text-amber-500 border border-amber-500/20", desc: "Aged Basmati, Cow ghee portions, Honey..." },
+              { id: "pune-dairy", name: "Pune Household Dairy", label: "LACT_AVD", color: "bg-emerald-950/40 text-[#10b981] border border-emerald-500/20", desc: "Packet butter, Fermented yogurt..." }
+            ].map(p => (
+              <button 
+                key={p.id}
+                onClick={() => triggerSampleScan(p.id)}
+                className="p-2.5 bg-[#0c0d12] border border-zinc-800 hover:border-emerald-500/40 rounded text-left flex flex-col hover:text-emerald-400 transition-all group font-mono"
+                id={`demo-btn-${p.id.split('-')[0]}`}
+              >
+                <div className="flex justify-between items-center w-full mb-1">
+                  <span className="font-bold text-zinc-200 text-xs font-sans group-hover:text-emerald-400 transition-colors">{p.name}</span>
+                  <span className={`text-[8px] rounded px-1.5 py-[1px] ${p.color}`}>{p.label}</span>
+                </div>
+                <span className="text-[10px] text-zinc-500 truncate">{p.desc}</span>
+              </button>
+            ))}
           </div>
 
           {receiptsHistory.length > 1 && (
