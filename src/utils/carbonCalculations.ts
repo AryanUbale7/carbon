@@ -38,3 +38,15 @@ export const calculateOptimizedTwin = (
   
   return Math.max(optimizedVal, MIN_ALLOWED_TWIN_CO2);
 };
+
+/**
+ * Converts CO2 in kg to Indian-context environmental equivalents.
+ */
+export const getIndianCarbonEquivalents = (co2Kg: number) => {
+  return {
+    lpgCylinders: parseFloat((co2Kg / 42.5).toFixed(2)),
+    scooterKm: Math.round(co2Kg * 25),
+    electricityUnitsKwh: parseFloat((co2Kg / 0.8).toFixed(1))
+  };
+};
+

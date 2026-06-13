@@ -124,6 +124,17 @@ export async function processReceiptScan({ imageBase64, mimeType, sampleId, rawT
   let prompt = `Analyze this purchase receipt for CarbonIQ, an Indian Carbon Intelligence Platform.
 Identify every line item or food item, its approximate carbon weight in kilograms of CO2 based on Indian lifecycle metrics, category, quantity, and a premium localized swap alternative (incorporating Indian alternatives like soy tofu, millets, local plant butter, cold pressed oils).
 
+BILINGUAL INDIAN RECEIPTS / REGIONAL TERMS SUPPORT:
+Identify and normalize regional or bilingual Indian receipt terms into standard English (with the regional term in parentheses if appropriate). For example:
+- "Atta" should be mapped to "Whole Wheat Flour (Atta)"
+- "Dahi" or "Curd" should be mapped to "Yogurt (Dahi)"
+- "Doodh" should be mapped to "Milk (Doodh)"
+- "Paneer" should be mapped to "Cottage Cheese (Paneer)"
+- "Ghee" should be mapped to "Clarified Butter (Ghee)"
+- "Haldi" should be mapped to "Turmeric (Haldi)"
+- "Basmati Rice" should be mapped to "Basmati Rice"
+- "Millets" or "Ragi"/"Jowar" should be mapped to "Millets (Ragi/Jowar)"
+
 Return an accurate, structured JSON object representation matching this format exactly:
 {
   "items": [
@@ -163,7 +174,7 @@ Return an accurate, structured JSON object representation matching this format e
     contents,
     config: {
       responseMimeType: "application/json",
-      systemInstruction: "You are the premium CarbonIQ Intelligence engine. You scan Indian bills and convert purchases into a high-credibility carbon budget estimation. Assign proper ID to each parsed item starting from 1.",
+      systemInstruction: "You are the premium CarbonIQ Intelligence engine. You scan Indian bills and convert purchases into a high-credibility carbon budget estimation, translating and normalizing regional/bilingual Indian terms (like Atta, Dahi, Doodh, Paneer, Ghee, Haldi, Basmati Rice, Millets) into structured English output. Assign proper ID to each parsed item starting from 1.",
       responseSchema: {
         type: Type.OBJECT,
         properties: {

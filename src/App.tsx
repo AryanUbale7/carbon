@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronRight, Database, CheckCircle, Loader2 } from "lucide-react";
+import { ChevronRight, Database, CheckCircle, Loader2, X } from "lucide-react";
 import { useCarbonIQ } from "./hooks/useCarbonIQ";
 import { Sidebar } from "./components/Sidebar";
 import { WorkspaceScanner } from "./components/WorkspaceScanner";
@@ -24,6 +24,7 @@ const TabLoadingFallback = () => (
 );
 
 export default function App() {
+  const [showWalkthrough, setShowWalkthrough] = React.useState(true);
   const {
     activeTab,
     setActiveTab,
@@ -153,6 +154,58 @@ export default function App() {
           </nav>
 
           <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6" id="carboniq-viewport-scroll" style={{ scrollbarWidth: "thin" }}>
+            <AnimatePresence>
+              {showWalkthrough && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="relative p-4 md:p-5 rounded-xl bg-[#0c0d12]/90 backdrop-blur-lg border border-[#10b981]/30 shadow-[0_0_30px_rgba(16,185,129,0.07)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 select-none"
+                  id="judge-walkthrough-banner"
+                >
+                  <div className="flex-1 space-y-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10b981]"></span>
+                      </span>
+                      <span className="text-xs font-mono font-black text-emerald-400 uppercase tracking-widest leading-none">
+                        ⚡ Judge Demo Path
+                      </span>
+                    </div>
+                    <ol className="grid grid-cols-1 sm:grid-cols-5 gap-2 md:gap-3 text-[11px] font-mono text-zinc-300">
+                      <li className="flex items-center gap-2 bg-black/40 px-3 py-2 rounded-lg border border-zinc-800/40 hover:border-emerald-500/20 transition-colors">
+                        <span className="w-5 h-5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 flex items-center justify-center font-bold text-[10px] shrink-0">1</span>
+                        <span>Scan a receipt</span>
+                      </li>
+                      <li className="flex items-center gap-2 bg-black/40 px-3 py-2 rounded-lg border border-zinc-800/40 hover:border-emerald-500/20 transition-colors">
+                        <span className="w-5 h-5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 flex items-center justify-center font-bold text-[10px] shrink-0">2</span>
+                        <span>View AI carbon analysis</span>
+                      </li>
+                      <li className="flex items-center gap-2 bg-black/40 px-3 py-2 rounded-lg border border-zinc-800/40 hover:border-emerald-500/20 transition-colors">
+                        <span className="w-5 h-5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 flex items-center justify-center font-bold text-[10px] shrink-0">3</span>
+                        <span>Open Carbon Twin</span>
+                      </li>
+                      <li className="flex items-center gap-2 bg-black/40 px-3 py-2 rounded-lg border border-zinc-800/40 hover:border-emerald-500/20 transition-colors">
+                        <span className="w-5 h-5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 flex items-center justify-center font-bold text-[10px] shrink-0">4</span>
+                        <span>Ask AI Coach</span>
+                      </li>
+                      <li className="flex items-center gap-2 bg-black/40 px-3 py-2 rounded-lg border border-zinc-800/40 hover:border-emerald-500/20 transition-colors">
+                        <span className="w-5 h-5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 flex items-center justify-center font-bold text-[10px] shrink-0">5</span>
+                        <span>Explore Municipal Network</span>
+                      </li>
+                    </ol>
+                  </div>
+                  <button
+                    onClick={() => setShowWalkthrough(false)}
+                    className="p-1.5 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-950/40 hover:bg-zinc-900 text-zinc-400 hover:text-white transition-all shrink-0 self-start md:self-center"
+                    aria-label="Dismiss banner"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
             <Suspense fallback={<TabLoadingFallback />}>
               <AnimatePresence mode="wait">
                 {activeTab === "workspace" && (

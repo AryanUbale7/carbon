@@ -249,10 +249,14 @@ export const WorkspaceScanner = React.memo(function WorkspaceScanner({
                 <p className="text-[11px] text-[#94a3b8] leading-relaxed italic font-sans">&ldquo;{scanResult.explanation}&rdquo;</p>
               </div>
 
-              <div className="flex flex-col justify-center items-center md:items-end px-5 py-3 bg-[#131620] rounded-lg border border-[#1e2230] text-center md:text-right min-w-[150px] shrink-0">
-                <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest block mb-0.5">TOTAL CO₂ WEIGHT</span>
-                <span className="text-4xl font-mono font-black text-white tracking-tighter">{scanResult.totalCo2.toFixed(1)}</span>
-                <span className="text-[9px] text-emerald-400 uppercase tracking-widest font-mono font-bold mt-1">KILOGRAM EQUIVALENT</span>
+              <div className="flex flex-col justify-center items-center md:items-end px-5 py-3 bg-[#131620] rounded-lg border border-[#1e2230] text-center md:text-right min-w-[150px] shrink-0 font-mono">
+                <span className="text-[9px] text-zinc-500 uppercase tracking-widest block mb-0.5">TOTAL CO₂ WEIGHT</span>
+                <span className="text-4xl font-black text-white tracking-tighter">{scanResult.totalCo2.toFixed(1)}</span>
+                <span className="text-[9px] text-emerald-400 uppercase tracking-widest font-bold mt-1 mb-1">KILOGRAM EQUIVALENT</span>
+                <span className="text-[8px] text-zinc-400 text-center md:text-right leading-relaxed block">
+                  ≈ {Math.round(scanResult.totalCo2 * 25)} scooter-km<br />
+                  ≈ {parseFloat((scanResult.totalCo2 / 42.5).toFixed(2))} LPG cylinder
+                </span>
               </div>
             </div>
           </div>

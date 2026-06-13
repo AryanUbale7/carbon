@@ -57,6 +57,9 @@ export const ActionCampaigns = React.memo(function ActionCampaigns({
           <div className="min-w-0">
             <span className="text-[9px] text-zinc-500 font-mono uppercase block">Total carbon saved to date</span>
             <strong className="text-base font-mono text-zinc-100 block truncate">{totalCarbonSaved.toFixed(1)} kg CO₂e</strong>
+            <span className="text-[8px] text-zinc-400 font-mono block mt-0.5 truncate">
+              ≈ {Math.round(totalCarbonSaved * 25)} scooter-km | {parseFloat((totalCarbonSaved / 42.5).toFixed(1))} LPG cyl
+            </span>
           </div>
         </div>
 
@@ -100,8 +103,8 @@ export const ActionCampaigns = React.memo(function ActionCampaigns({
                   }`} />
                   <h4 className="text-xs font-bold text-zinc-100 font-sans leading-tight">{mission.title}</h4>
                 </div>
-                <div className="flex gap-4 text-[9px] font-mono text-zinc-500 pl-4 leading-none">
-                  <span>CO₂ Impact: <strong className="text-emerald-400">-{mission.co2Saving}kg</strong></span>
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-[9px] font-mono text-zinc-500 pl-4 leading-none">
+                  <span>CO₂ Impact: <strong className="text-emerald-400">-{mission.co2Saving}kg</strong> <span className="text-zinc-600">({Math.round(mission.co2Saving * 25)} scooter-km)</span></span>
                   <span>Economic Delta: <strong className="text-zinc-300">₹{mission.monetarySaving} Saved</strong></span>
                 </div>
               </div>

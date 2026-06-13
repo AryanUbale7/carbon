@@ -1,7 +1,90 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Sliders, Award } from "lucide-react";
-import { calculateOptimizedTwin as calcTwin } from "../utils/carbonCalculations";
+import { calculateOptimizedTwin as calcTwin, getIndianCarbonEquivalents } from "../utils/carbonCalculations";
+
+const EcoAvatar: React.FC<{ score: number }> = ({ score }) => {
+  let glowColor = "rgba(239, 68, 68, 0.15)";
+  let strokeColor = "#f87171";
+  let label = "Carbon Heavy";
+  let pulseClass = "animate-pulse";
+
+  if (score >= 70) {
+    glowColor = "rgba(16, 185, 129, 0.15)";
+    strokeColor = "#34d399";
+    label = "Climate Leader";
+    pulseClass = "animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]";
+  } else if (score >= 35) {
+    glowColor = "rgba(245, 158, 11, 0.15)";
+    strokeColor = "#fbbf24";
+    label = "Optimizing Node";
+    pulseClass = "animate-pulse";
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center p-5 bg-[#0c0d12] border border-zinc-800/80 rounded-lg relative overflow-hidden group mb-5">
+      <div 
+        className="absolute w-24 h-24 rounded-full blur-2xl opacity-30 transition-all duration-500" 
+        style={{ backgroundColor: glowColor }}
+      />
+      <svg className="w-24 h-24 relative z-10 drop-shadow-md" viewBox="0 0 100 100" fill="none">
+        <circle 
+          cx="50" 
+          cy="50" 
+          r="42" 
+          stroke={strokeColor} 
+          strokeWidth="1" 
+          strokeDasharray="4 4" 
+          className="animate-[spin_40s_linear_infinite]"
+        />
+        <circle 
+          cx="50" 
+          cy="50" 
+          r="34" 
+          stroke={strokeColor} 
+          strokeWidth="1.5" 
+          strokeOpacity="0.3"
+          className="animate-[spin_20s_linear_infinite_reverse]"
+        />
+        <circle 
+          cx="50" 
+          cy="50" 
+          r="8" 
+          fill={strokeColor} 
+          className={pulseClass}
+        />
+        <circle 
+          cx="50" 
+          cy="50" 
+          r="12" 
+          stroke={strokeColor} 
+          strokeWidth="2" 
+          strokeOpacity="0.6"
+        />
+        <g className="animate-[spin_10s_linear_infinite]">
+          <circle cx="50" cy="16" r="4" fill={strokeColor} />
+          <circle cx="50" cy="84" r="2.5" fill={strokeColor} fillOpacity="0.6" />
+          <circle cx="16" cy="50" r="3.5" fill={strokeColor} fillOpacity="0.8" />
+          <circle cx="84" cy="50" r="3" fill={strokeColor} />
+        </g>
+        <path 
+          d="M50,38 C55,43 55,51 50,57 C45,51 45,43 50,38 Z" 
+          fill={strokeColor} 
+          fillOpacity="0.2" 
+          stroke={strokeColor} 
+          strokeWidth="1"
+        />
+      </svg>
+      <span className="text-[10px] font-mono tracking-widest uppercase font-black mt-3 relative z-10" style={{ color: strokeColor }}>
+        {label}
+      </span>
+      <span className="text-[8px] font-mono text-zinc-500 uppercase mt-0.5 relative z-10">
+        Optimization Index: {score}%
+      </span>
+    </div>
+  );
+};
+
 
 interface CarbonTwinProps {
   dairyReductionPercent: number;
@@ -37,6 +120,18 @@ export const CarbonTwin = React.memo(function CarbonTwin({
 
   const twinDifference2028 = currentTwinProjections[2028] - optimizedTwinProjections[2028];
 
+  const optimizationScore = React.useMemo(() => {
+    let score = (dairyReductionPercent + altAdoptionPercent) / 2;
+    if (energyTransitionActive) {
+      score = score * 0.8 + 20;
+    }
+    return Math.round(score);
+  }, [dairyReductionPercent, altAdoptionPercent, energyTransitionActive]);
+
+  const equivalents = React.useMemo(() => {
+    return getIndianCarbonEquivalents(twinDifference2028);
+  }, [twinDifference2028]);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
@@ -60,6 +155,9 @@ export const CarbonTwin = React.memo(function CarbonTwin({
           <div>
             <span className="text-[8px] font-mono text-zinc-500 uppercase block">2028 Avoided Trajectory</span>
             <span className="text-lg font-mono font-black text-emerald-400">-{twinDifference2028}kg CO₂e</span>
+            <span className="text-[8px] text-zinc-400 block font-mono">
+              ≈ {equivalents.scooterKm} scooter-km | {equivalents.lpgCylinders} LPG cyl
+            </span>
           </div>
           <div className="h-6 w-px bg-zinc-800" />
           <div>
@@ -76,6 +174,8 @@ export const CarbonTwin = React.memo(function CarbonTwin({
               <Sliders className="h-4 w-4" />
               Model Levers & Weights
             </h3>
+            
+            <EcoAvatar score={optimizationScore} />
             
             <div className="space-y-2 mb-5">
               <div className="flex justify-between items-center text-xs">
@@ -144,7 +244,7 @@ export const CarbonTwin = React.memo(function CarbonTwin({
               <span className="text-[9px] font-mono font-bold tracking-widest uppercase text-emerald-400">Simulation Impact Equation</span>
             </div>
             <p className="text-xs text-zinc-300 leading-relaxed">
-              Your optimizations forecast a 2028 trajectory worth <strong className="text-white font-mono">{optimizedTwinProjections[2028]}kg CO₂e/year</strong>. This removes the equivalent of planting <strong className="text-emerald-400 font-mono">{Math.round(twinDifference2028 / 21)} cedar saplings</strong>.
+              Your optimizations forecast a 2028 trajectory worth <strong className="text-white font-mono">{optimizedTwinProjections[2028]}kg CO₂e/year</strong>. This removes the equivalent of planting <strong className="text-emerald-400 font-mono">{Math.round(twinDifference2028 / 21)} cedar saplings</strong>, avoiding <strong className="text-emerald-400 font-mono">{equivalents.scooterKm} km</strong> on a petrol scooter, or offsetting <strong className="text-emerald-400 font-mono">{equivalents.electricityUnitsKwh} units (kWh)</strong> of coal-based grid electricity.
             </p>
             <p className="text-xs text-zinc-500 leading-relaxed pt-1.5 border-t border-zinc-900">
               Additionally triggers an estimated <strong className="text-white font-mono">₹{Math.round(twinDifference2028 * 14)} in annual savings</strong> via seasonal, zero-mile supply-chains.

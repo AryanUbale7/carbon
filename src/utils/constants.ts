@@ -26,6 +26,18 @@ export const INITIAL_MESSAGES: Message[] = [
     id: "init-1",
     role: "model",
     content: "Hello! I am your CarbonIQ Coach. Powered by Gemini-3.5 Intelligence, I leverage India's Carbon Intelligence Network agricultural and supply chain lifecycle metrics.\n\nI monitor your scanned receipts, carbon twin trajectories, and municipal trends. Ask me anything, such as 'Why is my footprint increasing?', 'What should I replace first?', or 'Compare me with Bengaluru averages'.",
+    timestamp: new Date(Date.now() - 120000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  },
+  {
+    id: "init-2",
+    role: "user",
+    content: "How do dairy emissions in India compare to plant-based fats, and what are the actual cost and carbon savings of swapping?",
+    timestamp: new Date(Date.now() - 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  },
+  {
+    id: "init-3",
+    role: "model",
+    content: "Dairy fat production (specifically Cow Ghee and Butter) carries a significantly high environmental footprint in India due to enteric fermentation in ruminants and coal-heavy logistics grids.\n\nHere is a direct lifecycle comparison of **500g Ghee/Butter** vs. **500ml Cold-Pressed Mustard/Til Oil**:\n\n| Ingredient Element | Carbon Coefficient | Avg. Retail Cost | Water Requirement | Eco Rating |\n| :--- | :--- | :--- | :--- | :--- |\n| **Pure Cow Ghee / Butter** | **4.8 kg CO₂e** | **₹350** | ~2,500 Litres | **E** (Critical) |\n| **Cold-Pressed Mustard Oil** | **0.8 kg CO₂e** | **₹110** | ~120 Litres | **A** (Optimal) |\n| **Net Savings (Delta)** | **-4.0 kg CO₂e (83%)** | **₹240 Saved** | -2,380 Litres | **A+ Upgrade** |\n\n### 🌿 Indian Kitchen Mitigation Impact:\n* **Carbon Impact Equivalents:** Swapping a single 500g container of Ghee avoids **4.0 kg CO₂e**, which is equivalent to saving **16.2 km driven on a petrol scooter** or offsetting **0.25 LPG household cylinder burns**.\n* **Financial Delta:** Switching to cold-pressed mustard or til oil saves **₹240 per transaction** while upgrading your diet to healthy, monounsaturated fats.\n\nWould you like me to simulate the long-term impact on your **Carbon Twin** or suggest a millet recipe matching this oil profile?",
     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
 ];
