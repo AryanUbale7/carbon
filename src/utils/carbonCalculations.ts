@@ -32,18 +32,22 @@ export const calculateOptimizedTwin = (
  */
 export const calculateEcoRating = (co2: number, category: string): "A" | "B" | "C" | "D" | "E" => {
   const cat = category.toLowerCase();
-  if (cat.includes("meat")) {
+  const isMeat = cat.includes("meat") || cat.includes("chicken") || cat.includes("beef") || cat.includes("mutton") || cat.includes("pork") || cat.includes("fish");
+  const isDairy = cat.includes("dairy") || cat.includes("milk") || cat.includes("paneer") || cat.includes("cheese") || cat.includes("yogurt") || cat.includes("curd") || cat.includes("butter") || cat.includes("mozzarella");
+  const isFatOrOil = cat.includes("fat") || cat.includes("oil") || cat.includes("ghee");
+
+  if (isMeat) {
     if (co2 < 1.5) return "B";
     if (co2 < 3.0) return "C";
     if (co2 < 5.0) return "D";
     return "E";
-  } else if (cat.includes("dairy")) {
+  } else if (isDairy) {
     if (co2 < 0.6) return "A";
     if (co2 < 1.2) return "B";
     if (co2 < 2.0) return "C";
     if (co2 < 3.5) return "D";
     return "E";
-  } else if (cat.includes("fat") || cat.includes("oil")) {
+  } else if (isFatOrOil) {
     if (co2 < 0.5) return "A";
     if (co2 < 1.5) return "C";
     if (co2 < 3.0) return "D";

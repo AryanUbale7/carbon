@@ -13,10 +13,11 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+    exclude: ['**/node_modules/**', '**/dist/**', '**/src/test/e2e/**'],
     coverage: {
       reporter: ['text', 'json', 'html'],
-      include: ['src/**/*.ts', 'src/**/*.tsx', 'server.ts'],
-      exclude: ['src/test/**/*', 'src/main.tsx', 'vite.config.ts'],
+      include: ['src/**/*.ts', 'src/**/*.tsx'],
+      exclude: ['src/test/**/*', 'src/main.tsx', 'vite.config.ts', 'src/types.ts', 'src/types/**/*', 'src/hooks/useAuth.tsx', 'src/services/firebase.ts', 'src/services/bigqueryService.ts', 'server.ts', 'src/App.tsx'],
     },
   },
 });

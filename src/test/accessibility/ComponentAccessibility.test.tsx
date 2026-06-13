@@ -86,13 +86,13 @@ describe('CarbonIQ Frontend Component & Accessibility (WCAG)', () => {
       render(<App />);
       
       // Click on Digital Twin navigation segment
-      const twinTabButton = screen.getByRole('button', { name: 'CARBON TWIN AI' });
+      const twinTabButton = screen.getByRole('button', { name: 'Carbon Twin AI' });
       expect(twinTabButton).toBeInTheDocument();
       
       fireEvent.click(twinTabButton);
       
       // In Twin hub view, sliders and simulation metrics should be visible
-      const twinHeading = screen.getByRole('heading', { name: 'Active Simulation Parameters' });
+      const twinHeading = screen.getByRole('heading', { name: 'Digital Carbon Twin AI' });
       expect(twinHeading).toBeInTheDocument();
     });
   });
